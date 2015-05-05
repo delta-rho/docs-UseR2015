@@ -28,45 +28,45 @@ This tutorial provides attendees hands-on experience using Tessera. We will cove
  + Installing the packages (10 min)
  + Back-end options (5 min)
  + Key value pairs and divide-recombine (15 min)
-   - Overview
-   - Conditioning variable
-   - Random splits
-   - Recombination
-   - Example
-   - **Exercise**
+    - Overview
+    - Conditioning variable
+    - Random splits
+    - Recombination
+    - Example
+    - **Exercise**
  + Distributed data structures (10 min)
-   - ddo
-   - ddf
-   - **Exercise**
+    - ddo
+    - ddf
+    - **Exercise**
  + Data operations (10 min)
-   - drLapply
-   - drFilter
-   - drJoin
-   - drSample
-   - drSubset
-   - **Exercise**
+    - drLapply
+    - drFilter
+    - drJoin
+    - drSample
+    - drSubset
+    - **Exercise**
  + Transformations (10 min)
-   - Overview
-   - Lazy evaluation and efficiency
-**Exercise**
+    - Overview
+    - Lazy evaluation and efficiency
+    - **Exercise**
  + Filtering (10 min)
-   - Overview
-   - **Exercises**
+    - Overview
+    - **Exercises**
  + MapReduce with d&r (10 min)
 
 2. Introduction to Trelliscope
   + Installation and configuration options for Tessera (5 min)
   + Multi-pannel displays and conditioning (10 min)
-   - Overview
-   - Panel functions
-   - Axis limit options
-**Exercise**
+    - Overview
+    - Panel functions
+    - Axis limit options
+    - **Exercise**
   + The visualization database (10 min)
   + Cognostics and display organization (10 min)
-   - What is a cognostic?
-   - Why use a cognostic?
-   - Creating cognosic functions
-   - **Exercises**
+    - What is a cognostic?
+    - Why use a cognostic?
+    - Creating cognosic functions
+    - **Exercises**
 
 3. Analysis of the taxi data set
 
