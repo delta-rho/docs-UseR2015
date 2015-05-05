@@ -1,0 +1,15 @@
+---
+title: "Tessera Demo at UseR 2015"
+author: Tessera
+copyright: Tessera
+output:
+  packagedocs:
+    toc: true
+brand: |-
+  <a href="http://tessera.io">
+  <img src='figures/icon.png' alt='tessera icon' width='30px' height='30px' style='margin-top: -3px;'>
+  </a>
+---
+
+```{r in-1, child='docs/install.Rmd'}
+```
