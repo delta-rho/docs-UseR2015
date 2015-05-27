@@ -1,7 +1,7 @@
 # Tutorial:
 # Analysis and Visualization of Large Complex Data Sets with Tessera<sup>TM</sup>
 
-**Ryan Hafen, Stephen F Elston, and Amanda White**
+**Ryan P. Hafen, Stephen F. Elston, and Amanda M. White**
 
 ## Background:
 
@@ -19,60 +19,70 @@ The interactive tutorial examples are small enough to run on an attendee-provide
 
 ## Detailed Outline
 
-Total time 130 min + final exercise.
+Total time 145 min + final exercise.
 
 This tutorial provides attendees hands-on experience using Tessera. We will cover the following topics in this tutorial:
 
 1. Introduction to Tessera and datadr
 
+ + Overview and goals (15 min)
  + Installing the packages (10 min)
- + Back-end options (5 min)
- + Key value pairs and divide-recombine (15 min)
-    - Overview
-    - Conditioning variable
-    - Random splits
-    - Recombination
-    - Example
-    - **Exercise**
- + Distributed data structures (10 min)
-    - ddo
-    - ddf
-    - **Exercise**
- + Data operations (10 min)
-    - drLapply
-    - drFilter
-    - drJoin
-    - drSample
-    - drSubset
-    - **Exercise**
- + Transformations (10 min)
+ + Overview of taxi dataset used in examples (5 min)
+ + Datadr data representation (10 min)
+    - What are key value pairs
+    - Introduce distributed data objects (ddo) and distributed data frames (ddf)
+ + Data ingest (15 min)
+    - Back end options: in-memory, local disk, HDFS, Spark (coming soon)
+    - Demonstrate drRead.csv with example data
+    - Show examples: drRread.table, converting data.frame in memory directly, drRead.csv/drRead.table with hdfsConn
+    - **Exercise**: Participants use drRead.csv to load taxi data
+ + Division (15 min)
+    - Introduce divide statement
+    - Show example with data
+    - **Exercise**: Participants divide data on a different variable
+    - Solution: show possible solutions
+ + Transformation (15 min)
     - Overview
     - Lazy evaluation and efficiency
-    - **Exercise**
- + Filtering (10 min)
+    - Show example with data
+    - **Exercise**: Participants construct their own transformation function and apply it
+ + Recombine (15 min)
     - Overview
-    - **Exercises**
- + MapReduce with d&r (10 min)
-
+    - Discuss different combine methods (combRbind vs combDdo vs combCollect)
+    - Demonstrate recombine statement on data
+    - **Exercise**: Participants try recombine on the transformed data they created above
+ + Data operations (15 min)
+    - drJoin
+       - Show example in with data
+       - Examine the different structure of the data that is returned (ddo vs ddf)
+    - drFilter
+       - Show example with data
+    - drLapply
+    - drSample
+    - drSubset
+    - **Exercise**: Participants choose one (or more) of these operations and construct a command using the example data
+ + Division independent data operations (?)
+    - drQuantile
+    - drAggregate
+ + Hadoop demo (5 min)
+    - Demonstrate a few commands using Hadoop on an Amazon cluster
+ 
 2. Introduction to Trelliscope
-  + Installation and configuration options for Tessera (5 min)
-  + Multi-pannel displays and conditioning (10 min)
+  + Multi-panel displays and conditioning (15 min)
     - Overview
     - Panel functions
     - Axis limit options
-    - **Exercise**
-  + The visualization database (10 min)
+    - The visualization database 
+    - **Exercise**: Participants will create their own panel function
   + Cognostics and display organization (10 min)
     - What is a cognostic?
     - Why use a cognostic?
     - Creating cognosic functions
-    - **Exercises**
+    - **Exercise**: Participants will create their own cognostic
 
-3. Analysis of the taxi data set
+3. Challenge exercise using Taxi data
 
-  + Overview of the taxi data set (5 min)
-  + Pulling it all together (10 min)
-  + Exercises for participants
+  + **TODO**: Construct a question/goal for the participants to use Tessera tools to answer
 
 ## Background Knowledge:
 
@@ -87,6 +97,7 @@ Attendees should have a laptop with the following installed:
 - An up-to-date web browser, Chrome/Firefox
 - The [datadr package](https://github.com/tesseradata/datadr)
 - The [trelliscope package](https://github.com/tesseradata/trelliscope)
+- **TODO**: Other R libraries needed for the exercises?
 
 ## Potential Attendees:
 
