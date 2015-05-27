@@ -1,0 +1,573 @@
+---
+title: "Tessera: Open Source Tools for Big Data Analysis in R"
+author: Ryan Hafen, Stephen Elstrom, Amanda White
+date: July 2, 2015
+output: 
+    ioslides_presentation:
+        self_contained: true
+        includes:
+            in_header: custom_header.html
+---
+
+## Acknowledgements
+We gratefully acknowledge the funding support of:
+
+* U.S. Department of Homeland Security, Science and Technology Directorate, Homeland Security Advanced Research Projects Agency (HSARPA)
+* U.S. Department of Defense Advanced Research Projects Agency (DARPA), XDATA program
+* Division of Math Sciences CDS&E Grant, National Science Foundation
+* Pacific Northwest National Laboratory, operated by Battelle for the U.S. Department of Energy, LDRD Program, Signature Discovery and Future Power Grid Initiatives
+
+## Motivation
+Our goal in creating Tessera was to
+
+* Enable users to
+    + visually explore large datasets
+    + fit statistical models, and
+    + derive mission-critical insight
+    + __with minimal lines of code__
+* While providing
+    + a familiar, interactive, desktop programming environment
+    + automatic management of the complicated tasks of distributed storage and computation required for big data
+    
+    
+## Tessera Fundamentals
+
+* Consists primarily of two R packages:
+    + datadr
+    + trelliscope
+* Open source 
+* All the power of R is available to you 
+* Developed by professionals who perform data analysis
+* TODO: add image
+
+## Tessera Fundamentals
+
+Column 1:
+
+* Rapid development of code and models
+* Excellent flexible statistical visualization capabilities
+* Immense collection of statistical routines
+* TODO: make this 2 columns and insert figures
+
+Column 2:
+
+* Hides messy details of parallelization
+* Takes care of partitioning, scheduling, fault tolerance, data management, and execution
+* Parallel programming paradigm (MapReduce) makes sense for many statistical algorithms
+
+## Tessera Fundamentals: datadr
+
+![](divide_and_recombine2.png)
+
+## Tessera Fundamentals: trelliscope
+
+Based on Trellis Display
+
+* Data is split into meaningful subsets
+* A visualization method is applied to each subset
+* The image for each subset is called a "panel"
+* Panels are arranged in an array of rows, columns, and pages, resembling a garden trellis
+* TODO: insert figures
+
+## Tessera Fundamentals: Connection Types
+
+Regardless of what's underneath, the interface remains the same
+TODO: insert figures
+
+## The current Tessera distributed computing stack
+
+* trelliscope:  visualization of subsets of data, web interface powered by Shiny  http://shiny.rstudio.com
+* datadr:  interface for divide and recombine operations
+* RHIPE:  The R and Hadoop Integrated Programming Environment 
+* Hadoop:  Framework for managing data and computation distributed across multiple hardrives in a cluster
+* HDFS:  Hadoop Distributed File System
+* TODO: insert figure
+
+# Introduction to `datadr`
+
+## Begin Hands-on Demonstrations
+
+* URL: http://goog.gl/something (TODO: update URL)
+* Use Firefox or Chrome (not Internet Explorer or Safari)
+* Security warning: untrusted connection
+
+![](security_warnings2.jpg)
+
+## Installing the Tessera packages
+
+```{r eval=FALSE}
+install.packages("devtools") # if not installed
+library(devtools)
+install_github("tesseradata/datadr")
+install_github("tesseradata/trelliscope")
+install_github("hafen/housingData") # demo data
+```
+
+## Housing Data
+
+* Housing sales and listing data in the United States 
+* Between 2008-10-01 and 2014-03-01
+* Aggregated to the county level 
+* Zillow.com data provided by Quandl (https://www.quandl.com/c/housing)
+
+## Housing Data Variables
+
+Variable | Description
+---------|-----------------
+fips | Federal Information Processing Standard a 5 digit count code
+county | US county name
+state | US state name
+time | date (the data is aggregated monthly)
+nSold | number sold this month
+medListPriceSqft | median list price per square foot
+medSoldPriceSqft | median sold price per square foot
+
+TODO: figure out line wrapping inside table
+
+## `datadr` data representation
+
+* Data are represented in key/value pairs
+* Introduce distributed data objects (ddo) and distributed data frames (ddf)
+* TODO expand this description
+
+## Data storage 
+
+`datadr` data storage options:
+
+* In memory
+* Local disk
+* HDFS
+* Spark (coming soon)
+
+## Data ingest
+
+```{r eval=FALSE}
+# similar to read.table function:
+my.data <- drRead.table(
+    hdfsConn("/home/me/dir/datafile.txt", 
+        header=TRUE, sep="\t")
+)
+
+# similar to read.csv function:
+my.data2 <- drRead.csv(
+    localDiskConn("c:/my/local/data.csv"))
+
+#convert in memory data.frame to ddf:
+my.data3 <- ddf(some.data.frame)
+```
+
+## Participants do this!
+
+``` {r} 
+# Load necessary libraries
+library(datadr)
+library(trelliscope)
+library(housingData)
+```
+
+``` {r eval=FALSE}
+# Read housing data
+housing <- drRead.csv("TODO: fill in filename here")
+```
+
+## Division
+
+* A common thing to do is to divide a dataset based on the value of one or more variables
+* Another option is to divide data into random replicates
+    + Use random replicates to estimate a GLM fit by applying GLM to each replicate subset and taking the mean coefficients
+    + Random replicates can also be used for a bag of little bootstraps approach 
+
+## Divide example
+
+Divide the housing data set by the variables "county" and "state"
+
+(This kind of data division is very similar to the functionality provided by the plyr package)
+
+
+``` {r results='hide', message=FALSE}
+byCounty <- divide(housing, 
+    by = c("county", "state"), update = TRUE)
+```
+
+## Divide example
+
+``` {r}
+byCounty
+```
+
+## Exercise: try the `divide` function
+
+Now try using the divide statement to divide on one or more variables
+
+## Possible solutions
+
+``` {r eval=FALSE}
+byState <- divide(housing, by="state", update = TRUE)
+
+byMonth <- divide(housing, by="time", update=TRUE)
+```
+
+## Exploring the `ddf` data object
+
+Data divisions can be accessed by index or by key name
+
+```{r}
+byCounty[[1]]
+```
+```{r eval=FALSE}
+byCounty[["county=Benton County|state=WA"]]
+```
+
+## Exploring the `ddf` data object
+
+Partipants: try these functions on your own
+
+* `summary(byCounty)`
+* `names(byCounty)`
+* `length(byCounty)`
+* `getKeys(byCounty)` 
+
+## Transformations
+
+* The `addTransform` function applies a function to each key/value pair in a `ddf`
+    + E.g. to calculate a summary statistic
+* The transformation is not applied immediately, it is deferred until:
+    + A function that kicks off a map/reduce job is called (e.g. `recombine`)
+    + A subset of the data is requested (e.g. `byCounty[[1]]`)
+    + `drPersist` function explicitly forces transformation computation
+    
+## Transformation example
+
+``` {r} 
+# Function to calculate a linear model and extract 
+# the slope parameter
+lmCoef <- function(x) {
+   coef(lm(medListPriceSqft ~ time, data = x))[2]
+}
+
+# Best practice tip: test transformation 
+# function on one division 
+lmCoef(byCounty[[1]]$value)
+```
+``` {r results='hide', message=FALSE}
+# Apply the transform function to the ddf
+byCountySlope <- addTransform(byCounty, lmCoef)
+```
+
+## Transformation example
+```{r}
+byCountySlope[[1]]
+```
+
+## Exercise: create a transformation function
+
+* Try creating your own transformation function
+* Hint: the input to your function will be one value from a key/value pair (e.g. `byCounty[[1]]$value`)
+
+```{r eval=FALSE}
+transformFn <- function(x) {
+    ## you fill in here
+}
+
+# test:
+transformFn(byCounty[[1]]$value)
+
+# apply:
+xformedData <- addTransform(byCounty, transformFn)
+```
+
+## Possible solutions
+
+```{r eval=FALSE}
+# example 1
+totalSold <- function(x) {
+   sum(x$nSold, na.rm=TRUE)
+}
+byCountySold <- addTransform(byCounty, totalSold)
+
+# example 2
+timeRange <- function(x) {
+   range(x$time)
+}
+byCountyTime <- addTransform(byCounty, timeRange)
+```
+
+## Recombination
+
+* Combine transformation results together again
+* Example
+
+```{r results='hide', message=FALSE}
+countySlopes <- recombine(byCountySlope, 
+    combine=combRbind)
+```
+``` {r}
+head(countySlopes)
+```
+
+## Recombination options
+
+`combine` parameter controls the form of the result
+
+* `combine=combRbind`: `rbind` is used to combine results into `data.frame`, this is the most frequently used option
+* `combine=collect`: results are collected into a list
+* `combine=combDdo`: results are combined into a `ddo` object
+
+## Exercise: try the `recombine` function
+
+* Apply `recombine` to the data with your custom transformation
+* Hint: `combine=combRbind` is probably the simplest option
+
+## Exercise: `divide`
+
+Divide two new datasets `geoCounty` and `wikiCounty` by county and state
+
+``` {r eval=FALSE}
+# look at the data first
+head(geoCounty)
+head(wikiCounty)
+
+# use divide function on each
+```
+
+## Solution
+
+``` {r results='hide', message=FALSE}
+geoByCounty <- divide(geoCounty, 
+    by=c("county", "state"))
+    
+wikiByCounty <- divide(wikiCounty, 
+    by=c("county", "state"))
+```
+
+## Data operations: drJoin
+
+Join together multiple data objects based on key
+
+```{r rresults='hide', message=FALSE}
+joinedData <- drJoin(housing=byCounty, 
+    slope=byCountySlope, 
+    geo=geoByCounty, 
+    wiki=wikiByCounty)
+```
+
+## Distributed data objects vs distributed data frames
+
+* In a `ddf` the value in each key/value is always a `data.frame`
+* A `ddo` can accomodate values that are not `data.frame`s
+
+```{r}
+class(joinedData)
+```
+
+## Distributed data objects vs distributed data frames
+
+```{r}
+joinedData[[176]]
+```
+
+## Data operations: drFilter
+
+Filter a `ddf` or `ddo` based on key and/or value
+
+```{r}
+# Note that a few county/state combinations do 
+# not have housing sales data:
+names(joinedData[[2884]]$value)
+
+# We want to filter those out those
+joinedData <- drFilter(joinedData, 
+    function(k,v) {
+        !is.null(v$housing)
+    })
+```
+
+## Other data operations
+
+* `drSample`: returns a `ddo` containing a random sample (i.e. a specified fraction) of key/value pairs
+* `drSubset`:  applies a subsetting function to the rows of a `ddf`
+* `drLapply`: applies a function to each subset and returns the results in a `ddo`
+
+## Exercise: `datadr` data operations
+
+Apply one or more of these data operations to `joinedData` or a `ddo` or `ddf` you created
+
+* `drJoin`
+* `drFilter`
+* `drSample`
+* `drSubset`
+* `drLapply`
+
+## Division independent operations
+
+* TODO: I'm not sure we have time to cover this
+* drQuantile
+* drAggregate
+
+## Using Tessera with a Hadoop cluster
+
+Differences from in memory computation:
+
+* Data ingest: use `hdfsConn` to specify a file location to read in HDFS
+* Each data object is stored in HDFS
+    + Use `output` parameter in most functions to specify a location in HDFS to store data
+
+```{r eval=FALSE}
+housing <- drRead.csv(
+    file=hdfsConn("/hdfs/data/location"), 
+    output=hdfsConn("/hdfs/data/second/location"))
+
+byCounty <- divide(housing, by=c("state", "county"),
+    output=hdfsConn("/hdfs/data/byCounty"))
+```
+
+TODO: show example on Hadoop cluster here
+
+# Introduction to `trelliscope`
+
+## Trelliscope
+
+* Divide and recombine visualization tool
+* Based on Trellis display
+* Apply a visualization method to each subset of a `ddf` or `ddo`
+* Interactively sort and filter plots
+
+## Trelliscope panel function
+
+* Define a function to apply to each subset that creates a plot
+* Plots can be created using base R graphics, ggplot, lattice, ... (TODO fill in here)
+
+```{r results='hide', message=FALSE}
+# Plot medListPriceSqft and medSoldPriceSqft by time
+timePanel <- function(x) {
+   xyplot(medListPriceSqft + medSoldPriceSqft ~ time,
+      data = x$housing, auto.key = TRUE, 
+      ylab = "Price / Sq. Ft.")
+}
+```
+
+## Trelliscope panel function
+
+```{r fig.width=8, fig.height=5}
+# test the panel function
+timePanel(joinedData[[176]]$value)
+```
+
+## Visualization database (vdb)
+
+* Trelliscope creates a directory with all the data to render the plots
+* Can later re-launch the Trelliscope display without all the prior data analysis
+
+```{r results='hide', message=FALSE}
+vdbConn("housing_vdb", autoYes=TRUE)
+```
+
+## Creating a Trelliscope display
+
+```{r results='hide', message=FALSE}
+makeDisplay(joinedData,
+   name = "list_sold_vs_time_datadr",
+   desc = "List and sold price over time",
+   panelFn = timePanel, 
+   width = 400, height = 400, 
+   lims = list(x = "same")
+)
+
+```
+```{r eval=FALSE}
+view()
+```
+
+## Trelliscope demo
+
+![](trelliscope_screenshot.png)
+
+## Exercise: create a panel function
+
+```{r eval=FALSE}
+newPanelFn <- function(x) {
+   # fill in here
+}
+
+# test the panel function
+timePanel(joinedData[[1]]$value)
+
+vdbConn("housing_vdb", autoYes=TRUE)
+
+makeDisplay(joinedData,
+   name = "panel_test",
+   desc = "Your test panel function",
+   panelFn = newPaneFn)
+```
+
+## Cognostics and display organization
+
+* Cognostic: 
+    + a value or summary statistic 
+    + calculated on each subset 
+    + to help the user focus their attention on plots of interest
+* Cognostics are used to sort and filter plots in Trelliscope
+* Define a function to apply to each subset to calculate desired values
+    + Return a list of named elements
+    + Each list element is a single value (no vectors or complex data objects)
+
+## Cognostics function
+
+```{r}
+priceCog <- function(x) { 
+   st <- getSplitVar(x, "state")
+   ct <- getSplitVar(x, "county")
+   zillowString <- gsub(" ", "-", paste(ct, st))
+   list(
+      slope = cog(x$slope, desc = "list price slope"),
+      meanList = cogMean(x$housing$medListPriceSqft),
+      meanSold = cogMean(x$housing$medSoldPriceSqft),
+      lat = cog(x$geo$lat, desc = "county latitude"),
+      lon = cog(x$geo$lon, desc = "county longitude"),
+      wikiHref = cogHref(x$wiki$href, desc="wiki link"),
+      zillowHref = cogHref(
+          sprintf("http://www.zillow.com/homes/%s_rb/", 
+              zillowString), 
+          desc="zillow link")
+   )
+}
+```
+
+## Use the cognostics function in trelliscope
+
+```{r results='hide', message=FALSE}
+makeDisplay(joinedData,
+   name = "list_sold_vs_time_datadr2",
+   desc = "List and sold price with cognostics",
+   panelFn = timePanel, 
+   cogFn = priceCog,
+   width = 400, height = 400, 
+   lims = list(x = "same")
+)
+```
+
+## Trelliscope demo
+
+![](trelliscope_screenshot2.png)
+
+## Exercise: create a cognostics function
+
+```{r eval=FALSE}
+newCogFn <- function(x) {
+#     list(
+#         name1=cog(value1, desc="description")
+#         name2=cog(value2, desc="description")
+#     )
+}
+
+# test the cognostics function
+newCogFn(joinedData[[1]]$value)
+
+makeDisplay(joinedData,
+   name = "cognostics_test",
+   desc = "Test panel and cognostics function",
+   panelFn = newPaneFn,
+   cogFn = newCogFn)
+   
+view()
+```
