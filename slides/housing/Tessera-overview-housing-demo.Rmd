@@ -1,6 +1,7 @@
 ---
 title: "Tessera: Open Source Tools for Big Data Analysis in R"
-author: Ryan Hafen, Stephen Elstrom, Amanda White
+author: Ryan P. Hafen, Stephen F. Elston, Amanda M. White
+location: useR! Conference
 date: July 2, 2015
 output: 
     ioslides_presentation:
@@ -8,14 +9,6 @@ output:
         includes:
             in_header: custom_header.html
 ---
-
-## Acknowledgements
-We gratefully acknowledge the funding support of:
-
-* U.S. Department of Homeland Security, Science and Technology Directorate, Homeland Security Advanced Research Projects Agency (HSARPA)
-* U.S. Department of Defense Advanced Research Projects Agency (DARPA), XDATA program
-* Division of Math Sciences CDS&E Grant, National Science Foundation
-* Pacific Northwest National Laboratory, operated by Battelle for the U.S. Department of Energy, LDRD Program, Signature Discovery and Future Power Grid Initiatives
 
 ## Motivation
 Our goal in creating Tessera was to
@@ -29,37 +22,41 @@ Our goal in creating Tessera was to
     + a familiar, interactive, desktop programming environment
     + automatic management of the complicated tasks of distributed storage and computation required for big data
     
-    
 ## Tessera Fundamentals
 
+<table>
+<tr>
+<td>
 * Consists primarily of two R packages:
     + datadr
     + trelliscope
 * Open source 
 * All the power of R is available to you 
 * Developed by professionals who perform data analysis
-* TODO: add image
+</td><td>
+<img src="tessera1.png"/>
+</td></tr></table>
 
-## Tessera Fundamentals
+## Tessera Fundamentals {.smaller}
 
-Column 1:
+<img src="flexibility_scalability.png" class="center"/>
 
+<table><tr>
+<td style="width:50%;">
 * Rapid development of code and models
 * Excellent flexible statistical visualization capabilities
 * Immense collection of statistical routines
-* TODO: make this 2 columns and insert figures
-
-Column 2:
-
+</td><td style="width:50%;">
 * Hides messy details of parallelization
 * Takes care of partitioning, scheduling, fault tolerance, data management, and execution
 * Parallel programming paradigm (MapReduce) makes sense for many statistical algorithms
+</td></tr></table>
 
 ## Tessera Fundamentals: datadr
 
 ![](divide_and_recombine2.png)
 
-## Tessera Fundamentals: trelliscope
+## Tessera Fundamentals: trelliscope {.smaller}
 
 Based on Trellis Display
 
@@ -67,21 +64,25 @@ Based on Trellis Display
 * A visualization method is applied to each subset
 * The image for each subset is called a "panel"
 * Panels are arranged in an array of rows, columns, and pages, resembling a garden trellis
-* TODO: insert figures
+
+![](trellis.png)
 
 ## Tessera Fundamentals: Connection Types
 
 Regardless of what's underneath, the interface remains the same
-TODO: insert figures
+![](connections.png)
 
-## The current Tessera distributed computing stack
+## The current Tessera distributed computing stack {.smaller}
 
+<table><tr>
+<td><img src="current_stack.png"/></td>
+<td>
 * trelliscope:  visualization of subsets of data, web interface powered by Shiny  http://shiny.rstudio.com
 * datadr:  interface for divide and recombine operations
 * RHIPE:  The R and Hadoop Integrated Programming Environment 
 * Hadoop:  Framework for managing data and computation distributed across multiple hardrives in a cluster
 * HDFS:  Hadoop Distributed File System
-* TODO: insert figure
+</td></tr></table>
 
 # Introduction to `datadr`
 
@@ -122,13 +123,18 @@ nSold | number sold this month
 medListPriceSqft | median list price per square foot
 medSoldPriceSqft | median sold price per square foot
 
-TODO: figure out line wrapping inside table
+## `datadr` data representation {.smaller}
 
-## `datadr` data representation
-
-* Data are represented in key/value pairs
-* Introduce distributed data objects (ddo) and distributed data frames (ddf)
-* TODO expand this description
+* Two main data types are 
+    + Distributed data frame (`ddf`): 
+        - A data frame that is split into chunks
+        - Each chunk contains a subset of the rows of the data frame
+        - Each subset may be distributed across the nodes of a cluster
+    + Distributed data object (`ddo`):
+        - Similar to distributed data frame
+        - Except each chunk can be an object with any structure
+        - Every distributed data frame is also a distributed data object
+* Both `ddf` and `ddo` types use key/value pairs for their structure
 
 ## Data storage 
 
@@ -156,18 +162,16 @@ my.data2 <- drRead.csv(
 my.data3 <- ddf(some.data.frame)
 ```
 
-## Participants do this!
+## You try it
 
-``` {r} 
+``` {r results='hide', message=FALSE} 
 # Load necessary libraries
 library(datadr)
 library(trelliscope)
 library(housingData)
-```
 
-``` {r eval=FALSE}
-# Read housing data
-housing <- drRead.csv("TODO: fill in filename here")
+# housing data frame is in the housingData package
+housingDdf <- ddf(housing)
 ```
 
 ## Division
@@ -185,7 +189,7 @@ Divide the housing data set by the variables "county" and "state"
 
 
 ``` {r results='hide', message=FALSE}
-byCounty <- divide(housing, 
+byCounty <- divide(housingDdf, 
     by = c("county", "state"), update = TRUE)
 ```
 
@@ -398,12 +402,6 @@ Apply one or more of these data operations to `joinedData` or a `ddo` or `ddf` y
 * `drSubset`
 * `drLapply`
 
-## Division independent operations
-
-* TODO: I'm not sure we have time to cover this
-* drQuantile
-* drAggregate
-
 ## Using Tessera with a Hadoop cluster
 
 Differences from in memory computation:
@@ -421,7 +419,7 @@ byCounty <- divide(housing, by=c("state", "county"),
     output=hdfsConn("/hdfs/data/byCounty"))
 ```
 
-TODO: show example on Hadoop cluster here
+# Hadoop demo
 
 # Introduction to `trelliscope`
 
@@ -435,7 +433,7 @@ TODO: show example on Hadoop cluster here
 ## Trelliscope panel function
 
 * Define a function to apply to each subset that creates a plot
-* Plots can be created using base R graphics, ggplot, lattice, ... (TODO fill in here)
+* Plots can be created using base R graphics, ggplot, lattice, rCharts, rboken (TODO: confirm with Ryan)
 
 ```{r results='hide', message=FALSE}
 # Plot medListPriceSqft and medSoldPriceSqft by time
@@ -556,7 +554,6 @@ makeDisplay(joinedData,
 newCogFn <- function(x) {
 #     list(
 #         name1=cog(value1, desc="description")
-#         name2=cog(value2, desc="description")
 #     )
 }
 
@@ -568,6 +565,7 @@ makeDisplay(joinedData,
    desc = "Test panel and cognostics function",
    panelFn = newPaneFn,
    cogFn = newCogFn)
-   
 view()
 ```
+
+# Questions

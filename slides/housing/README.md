@@ -6,12 +6,18 @@ library(rmarkdown)
 render("Tessera-overview-housing-demo.Rmd")
 ```
 
-Then open the rendered HTML file in a text editor and insert the script in 
+Then open Tessera-overview-housing-demo.html in a text editor and insert the script in 
 custom_footer.html at the end after the last script but before the `</body>` tag.
 This is done because using the `after_body` option for ioslides (in the header)
 inserts this script after the slide content but before the other ioslides scripts
 are imported. In order for the custom footer to work, it needs to be the last 
 script.
+
+At the top of the Tessera-overview-housing-demo.html file in the title slide insert 
+the following line before the date: (search for 'title-slide' to find it)
+```
+    <p style="margin-top: 6px; margin-left: -2px;">useR! Conference</p>
+```
 
 To generate a more readable set of html files, change the header of the 
 .Rmd file, from `self_contained: true` to `self_contained: false`. This makes the 
