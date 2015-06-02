@@ -773,7 +773,7 @@ byCounty &lt;- divide(housing, by=c(&quot;state&quot;, &quot;county&quot;),
 
 <ul>
 <li>Define a function to apply to each subset that creates a plot</li>
-<li>Plots can be created using base R graphics, ggplot, lattice, rCharts, rboken (TODO: confirm with Ryan)</li>
+<li>Plots can be created using base R graphics, ggplot, lattice, rbokeh, conceptually any htmlwidget</li>
 </ul>
 
 <pre class = 'prettyprint lang-r'># Plot medListPriceSqft and medSoldPriceSqft by time
@@ -941,6 +941,7 @@ view()</pre>
     }
   })();
 </script>
+<!-- Insert this after the last script in the HTML file after using rmarkdown to render it -->
 <script>
     // CUSTOM FOOTER
 

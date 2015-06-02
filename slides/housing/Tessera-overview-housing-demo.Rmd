@@ -433,7 +433,7 @@ byCounty <- divide(housing, by=c("state", "county"),
 ## Trelliscope panel function
 
 * Define a function to apply to each subset that creates a plot
-* Plots can be created using base R graphics, ggplot, lattice, rCharts, rboken (TODO: confirm with Ryan)
+* Plots can be created using base R graphics, ggplot, lattice, rbokeh, conceptually any htmlwidget
 
 ```{r results='hide', message=FALSE}
 # Plot medListPriceSqft and medSoldPriceSqft by time
