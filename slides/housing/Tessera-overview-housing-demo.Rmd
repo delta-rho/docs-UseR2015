@@ -10,33 +10,63 @@ output:
             in_header: custom_header.html
 ---
 
-## Motivation
+## Deep Analysis of Large, Complex Data {.smaller}
+
+* Goals of analysis:
+    + Uncover interesting or previously unknown behavior
+    + Develop new insights
+    + Identify deviations from expected behavior
+    + Confirm or reject hypotheses or suspicions
+* Visualization is critical in this process
+
+<img src="viz1.png" class="center"/>
+
+
+## <span class="underline">Deep Analysis</span> of Large, Complex Data {.smaller}
+
+* Data most often do not come with a manual for what to do
+* If we already (think we) know the algorithm / model to apply and simply apply it to the data, we are not doing analysis, we are processing
+* Deep analysis means 
+    + detailed, comprehensive analysis that does not lose important information in the data
+    + learning from the data, not forcing our preconceptions on the data
+    + being willing and able to use any of the 1000s of statistical, machine learning, and visualization methods as dictated by the data
+    + trial and error, an iterative process of hypothesizing, fitting, validating, learning
+
+
+## Deep Analysis of <span class="underline">Large, Complex Data</span>
+
+Any or all of the following:
+
+* Large number of records
+* Many variables
+* Complex data structures not readily put into tabular form of cases by variables
+* Intricate patterns and dependencies that require complex models and methods of analysis
+* Does not conform to simple assumptions made by many algorithms
+
+
+## Tessera {.smaller}
+
 Our goal in creating Tessera was to
 
 * Enable users to
-    + visually explore large datasets
-    + fit statistical models, and
-    + derive mission-critical insight
+    + visually explore large datasets, and 
+    + fit statistical models
     + __with minimal lines of code__
 * While providing
-    + a familiar, interactive, desktop programming environment
+    + a familiar, interactive, desktop programming environment (R)
+    + scalable access to the thousands of analytic methods of statistics, machine learning and visualization available in R
     + automatic management of the complicated tasks of distributed storage and computation required for big data
+
     
 ## Tessera Fundamentals
 
-<table>
-<tr>
-<td>
-* Consists primarily of two R packages:
-    + datadr
-    + trelliscope
+* Users interact primarily of two R packages:
+    + <span class="highlight">datadr</span>: data analysis toolkit implementing the Divide & Recombine paradigm that allows data scientists to leverage parallel processing back-ends such as Hadoop and Spark
+    + <span class="highlight">Trelliscope</span>: visualization package that enables detailed but scalable visualization of large, complex data
 * Open source 
-* All the power of R is available to you 
-* Developed by professionals who perform data analysis
-</td><td>
-<img src="tessera1.png"/>
-</td></tr></table>
-
+    + http://tessera.io
+    + http://github.com/tesseradata
+    
 ## Tessera Fundamentals {.smaller}
 
 <img src="flexibility_scalability.png" class="center"/>
@@ -52,25 +82,23 @@ Our goal in creating Tessera was to
 * Parallel programming paradigm (MapReduce) makes sense for many statistical algorithms
 </td></tr></table>
 
+## Back End Agnostic
+
+![](tessera_stack.png)
+
+<span class="center">Interface stays the same regardless of back end</span>
+    
 ## Tessera Fundamentals: datadr
 
 ![](divide_and_recombine2.png)
 
-## Tessera Fundamentals: trelliscope {.smaller}
+## Tessera Fundamentals: Trelliscope {.smaller}
 
-Based on Trellis Display
+* Trelliscope: a viz tool that enables scalable, detailed visualization of large data
+* Data is split into meaningful subsets, and a visualization method is applied to each subset
+* The user can sort and filter plots based on "cognostics"-summary statistics of interest-to explore the data
 
-* Data is split into meaningful subsets
-* A visualization method is applied to each subset
-* The image for each subset is called a "panel"
-* Panels are arranged in an array of rows, columns, and pages, resembling a garden trellis
-
-![](trellis.png)
-
-## Tessera Fundamentals: Connection Types
-
-Regardless of what's underneath, the interface remains the same
-![](connections.png)
+![](trelliscope_intro_screenshot.png)
 
 ## The current Tessera distributed computing stack {.smaller}
 
@@ -85,14 +113,6 @@ Regardless of what's underneath, the interface remains the same
 </td></tr></table>
 
 # Introduction to `datadr`
-
-## Begin Hands-on Demonstrations
-
-* URL: http://goog.gl/something (TODO: update URL)
-* Use Firefox or Chrome (not Internet Explorer or Safari)
-* Security warning: untrusted connection
-
-![](security_warnings2.jpg)
 
 ## Installing the Tessera packages
 
@@ -381,7 +401,7 @@ names(joinedData[[2884]]$value)
 
 # We want to filter those out those
 joinedData <- drFilter(joinedData, 
-    function(k,v) {
+    function(v) {
         !is.null(v$housing)
     })
 ```

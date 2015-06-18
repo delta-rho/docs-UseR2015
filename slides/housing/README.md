@@ -23,3 +23,12 @@ To generate a more readable set of html files, change the header of the
 .Rmd file, from `self_contained: true` to `self_contained: false`. This makes the 
 generated HTML appear with a subdirectory of supporting files rather than copying
 all necessary scripts and css to the html file. 
+
+To create a PDF file from the generated HTML, open Tessera-overview-housing-demo.html
+in Firefox on a Windows machine. Open the Print dialog and choose Adobe PDF from the 
+list of printers (requires Adobe Professional). Open the Properties dialog next to 
+the printers drop-down list and in the Adobe PDF Settings tab, change these settings:
+
+* Change default Settings to "High Quality Print"
+* Uncheck "Add document information"
+* Uncheck "Rely on system fonts only; do not use document fonts"
