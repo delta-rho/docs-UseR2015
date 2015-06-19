@@ -2,7 +2,7 @@
 title: "Tessera: Open Source Tools for Big Data Analysis in R"
 author: Ryan P. Hafen, Stephen F. Elston, Amanda M. White
 location: useR! Conference
-date: July 2, 2015
+date: June 30, 2015
 output: 
     ioslides_presentation:
         self_contained: true
@@ -60,7 +60,7 @@ Our goal in creating Tessera was to
     
 ## Tessera Fundamentals
 
-* Users interact primarily of two R packages:
+* Users interact primarily with two R packages:
     + <span class="highlight">datadr</span>: data analysis toolkit implementing the Divide & Recombine paradigm that allows data scientists to leverage parallel processing back-ends such as Hadoop and Spark
     + <span class="highlight">Trelliscope</span>: visualization package that enables detailed but scalable visualization of large, complex data
 * Open source 
@@ -334,7 +334,7 @@ head(countySlopes)
 `combine` parameter controls the form of the result
 
 * `combine=combRbind`: `rbind` is used to combine results into `data.frame`, this is the most frequently used option
-* `combine=collect`: results are collected into a list
+* `combine=combCollect`: results are collected into a list
 * `combine=combDdo`: results are combined into a `ddo` object
 
 ## Exercise: try the `recombine` function
@@ -467,7 +467,7 @@ timePanel <- function(x) {
 ## Trelliscope panel function
 
 ```{r fig.width=8, fig.height=5}
-# test the panel function
+# test the panel function on one division
 timePanel(joinedData[[176]]$value)
 ```
 
