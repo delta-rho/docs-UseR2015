@@ -15,6 +15,6 @@ knitr::opts_knit$set(root.dir = normalizePath("."))
 
 # generate index.html
 unlink("assets", recursive = TRUE)
-render("index.Rmd", output_format = package_docs(lib_dir = "assets"))
+render("index.Rmd", output_format = package_docs(lib_dir = "assets", toc = FALSE))
 check_output("index.html")
 system("open index.html")
