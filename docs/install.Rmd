@@ -1,6 +1,6 @@
-# Tessera Tutorial at UseR 2015 #
+# Tessera Tutorial at useR! 2015 #
 
-The Tessera team will be presenting an interactive tutorial at the [2015 Conference on Statistical Practice](http://user2015.math.aau.dk) in Aalborg Denmark on June 30, 2015.
+The Tessera team will be presenting an interactive tutorial at [useR! 2015](http://user2015.math.aau.dk) in Aalborg Denmark on June 30, 2015.
 
 ## Download Tutorial Materials ##
 
@@ -17,6 +17,7 @@ We highly encourage you to install the packages and download the supplementary m
 4. Open R and execute the following commands to install Tessera and other libraries you'll need for the tutorials:
 
 ```r
+install.packages("maps")
 if (!require("devtools"))
     install.packages("devtools")
 devtools::install_github("tesseradata/datadr")
@@ -60,4 +61,4 @@ contains a folder for each of the three exercises:  **power_exercise**, **netflo
 Each exercise folder has a single **.R** file which contains the code for the exercise. Open that
 file in your editor of choice and begin! -->
 
-#### We look forward to seeing you at UseR!
+#### We look forward to seeing you at useR!

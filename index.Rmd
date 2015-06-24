@@ -1,5 +1,5 @@
 ---
-title: "Tessera Tutorial at UseR 2015"
+title: "Tessera Tutorial at useR! 2015"
 author: Tessera
 copyright: Tessera
 output:
