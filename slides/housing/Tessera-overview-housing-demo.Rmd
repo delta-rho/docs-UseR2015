@@ -482,7 +482,7 @@ vdbConn("housing_vdb", autoYes=TRUE)
 
 ## Creating a Trelliscope display
 
-```{r results='hide', message=FALSE}
+```{r results='hide', message=FALSE, eval=FALSE}
 makeDisplay(joinedData,
    name = "list_sold_vs_time_datadr",
    desc = "List and sold price over time",
@@ -553,7 +553,7 @@ priceCog <- function(x) {
 
 ## Use the cognostics function in trelliscope
 
-```{r results='hide', message=FALSE}
+```{r results='hide', message=FALSE, eval=FALSE}
 makeDisplay(joinedData,
    name = "list_sold_vs_time_datadr2",
    desc = "List and sold price with cognostics",
@@ -588,4 +588,63 @@ makeDisplay(joinedData,
 view()
 ```
 
-# Questions
+# Analysis of NYC Taxi Data Set
+
+## Data download  
+
+Data and solution for UseR! 2015: http://tessera.io/docs-UseR2015/
+
+- Subset taxi data for New York City  
+- First seven days of 2013   
+- Ryan has posted some analysis of the NYC taxi data: http://hafen.github.io/taxi/#getting-the-data
+- NYC taxi rates are complex: http://www.nyc.gov/html/tlc/html/passenger/taxicab_rate.shtml
+
+## Data Contents {.smaller}
+
+Variable | Description
+---------|-----------------
+medallion | identifier of the individual taxi's license
+hack\_license | taxi driver license id
+vendor\_id | unique identifier of taxi owner
+rate\_code | code based on type of trip
+store\_and\_fwd\_flag | ignore
+pickup\_datetime | date and time of trip start
+dropoff\_datetime | date and time of trip end
+passenger\_count | number of riders
+trip\_time\_in\_secs | total time between pickup and dropoff 
+trip\_distance | distance covered in miles
+
+## Data Contents {.smaller}
+
+Variable | Description
+---------|-----------------
+pickup\_longitude, pickup\_latitude | coordinates for start of trip
+dropoff\_longitude, dropoff\_latitude | coordinates for end of trip
+payment\_type | "CRD" - credit or debit card, "CSH" - cash
+fare\_amount | base fare amount
+surcharge | additional change for peak hours, certain locations
+mta\_tax | local tax
+tip\_amount | tip paid, may be $0
+tolls\_amount | bridge and tunnel tolls  
+total\_amount | total amount paid by passengers 
+
+
+## Running a Local Cluster  
+
+- Local cluster can use multiple cores: each running an R process
+- R process requires memory for the chunks being processed 
+- Buffer size limits number of chunks, but large chunks must be loaded into memory  
+Hint: look at arguments of localDiskControl   
+Hint: look at process size, ps -aux on Linux or Windows Task Manager
+- Local calculations often disk-I/O bound 
+- Clusters with HDFS achieve greater I/O bandwidth 
+
+
+## Challenge Questions
+
+- Compute and plot quantiles of passenger\_count, trip\_time\_in\_secs, trip\_distance, total\_amount, tip\_amount
+- Compute summary statistics, such as mean toll or mean tip percent by distance category  
+Hint - cut() on divisions of log distance  
+Hint - divide the ddf by distance category 
+- Explore how tip percent changes with distance category, rate\_code and perhaps hour of the day  
+Hint - Think of some potentially useful cognostics
