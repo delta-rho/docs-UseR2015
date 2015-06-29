@@ -1,0 +1,100 @@
+/* Colors from tessera.io site:
+   main blue: #2b74a7
+   dark blue: #1b4a6a
+   light blue: #4d9bd1
+   mid blue/grey darker than background: #266693
+*/
+
+body {
+   font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}
+
+a {
+   color: #2b74a7;
+}
+
+/* Title slide customization */
+.title-slide {
+   background-color:#2b74a7;
+}
+
+.title-slide hgroup h1 {
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:#FFFFFF;
+}
+ 
+.title-slide hgroup h2 {
+     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+     color:#FFFFFF;
+}
+
+.title-slide hgroup p {
+     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+     color:#FFFFFF;
+}
+
+/* Titles on each slide */
+hgroup h2 {
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:#2b74a7;
+}
+
+/* Override default ioslides footer with empty content */
+slides > slide:not(.nobackground):after {
+  font-size: 12pt;
+  content: ' ';
+  position: absolute;
+  bottom: 20px;
+  right: 60px;
+  line-height: 1.9;
+}
+
+div.footer {
+  
+}
+
+/* Segue slides */
+slides > slide.dark {
+    background-color:#2b74a7 !important;
+}
+
+.segue h2 {
+    color: #ffffff;
+}
+
+.segue code {
+   color: #bbbbbb;
+}
+
+/* Footer elements */
+table.footer {
+  position: absolute;
+  bottom:10px;
+  left:0px;
+  width:100%;
+  font-size:12pt;
+  border:none;
+  table-layout:fixed;
+}
+
+td.leftFooter {
+  text-align:left;
+  padding-left:20px;
+  width=33%;
+}
+
+td.centerFooter {
+  text-align:center;
+  width=33%;
+}
+
+td.rightFooter {
+  text-align:right;
+  padding-right:20px;
+  width=33%;
+}
+
+img {
+    max-width:100%;
+    max-height:100%;
+}
