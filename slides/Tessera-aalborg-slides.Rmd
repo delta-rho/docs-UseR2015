@@ -61,6 +61,7 @@ Provide an environment that allows us to do the following with large complex dat
 ## Tessera Packages
 
 Users interact primarily with two R packages:
+
 - <span class="highlight">datadr</span>: data analysis R package implementing the Divide & Recombine paradigm that allows data scientists to leverage parallel data and processing back-ends such as Hadoop and Spark through a simple consistent interface
 - <span class="highlight">Trelliscope</span>: visualization package that enables flexible detailed scalable visualization of large, complex data
     
