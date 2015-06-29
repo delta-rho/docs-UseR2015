@@ -2,6 +2,11 @@
 
 The Tessera team will be presenting an interactive tutorial at [useR! 2015](http://user2015.math.aau.dk) in Aalborg Denmark on June 30, 2015.
 
+## Links for the Tutorial
+
+- [Slides](https://cdn.rawgit.com/tesseradata/docs-UseR2015/gh-pages/slides/housing/Tessera-overview-housing-demo.html)
+- [Taxi example code]()
+
 ## Download Tutorial Materials ##
 
 To avoid network issues at the tutorial and to help get things started off smoothly, please download the required packages and data sets listed below prior to the tutorial.  Additional materials such as slides and example code will be made available at the time of the tutorial.

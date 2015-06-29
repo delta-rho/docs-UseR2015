@@ -1,6 +1,7 @@
 ---
 title: "Tessera: Open Source Tools for Big Data Analysis in R"
-author: Ryan P. Hafen, Stephen F. Elston, Amanda M. White
+author: > 
+  Ryan Hafen (<a href="https://twitter.com/hafenstats" style="color: white">@hafenstats</a>), Stephen F. Elston, Amanda M. White
 location: useR! Conference
 date: June 30, 2015
 output: 
@@ -10,32 +11,35 @@ output:
             in_header: custom_header.html
 ---
 
-## Deep Analysis of Large, Complex Data {.smaller}
+## Tutorial Schedule
 
-* Goals of analysis:
-    + Uncover interesting or previously unknown behavior
-    + Develop new insights
-    + Identify deviations from expected behavior
-    + Confirm or reject hypotheses or suspicions
-* Visualization is critical in this process
+| Activity                                  | Time          |
+|-------------------------------------------|---------------|
+| Tessera overview (Ryan)                   | 13:30 - 14:00 |
+| Get started with housing example (Amanda) | 14:00 - 14:30 |
+| Break                                     | 10 min        |
+| Housing example continued (Amanda)        | 14:40 - 15:30 |
+| Break                                     | 10 min        |
+| Taxi example (Stephen)                    | 15:40 - 16:30 |
 
-<img src="viz1.png" class="center"/>
+## Installation Check
 
+http://bit.ly/tessera-aalborg
 
 ## <span class="underline">Deep Analysis</span> of Large, Complex Data {.smaller}
 
-* Data most often do not come with a manual for what to do
-* If we already (think we) know the algorithm / model to apply and simply apply it to the data, we are not doing analysis, we are processing
+* Data most often do not come with a model
+* If we already (think we) know the algorithm / model to apply and simply apply it to the data and nothing else, we are not doing analysis, we are processing
 * Deep analysis means 
     + detailed, comprehensive analysis that does not lose important information in the data
     + learning from the data, not forcing our preconceptions on the data
     + being willing and able to use any of the 1000s of statistical, machine learning, and visualization methods as dictated by the data
     + trial and error, an iterative process of hypothesizing, fitting, validating, learning
-
+    + a lot of visualization
 
 ## Deep Analysis of <span class="underline">Large, Complex Data</span>
 
-Any or all of the following:
+Large complex data has any or all of the following:
 
 * Large number of records
 * Many variables
@@ -43,44 +47,24 @@ Any or all of the following:
 * Intricate patterns and dependencies that require complex models and methods of analysis
 * Does not conform to simple assumptions made by many algorithms
 
+## The Goal of Tessera {.smaller}
 
-## Tessera {.smaller}
+Provide an environment that allows us to do the following with large complex data:
 
-Our goal in creating Tessera was to
-
-* Enable users to
-    + visually explore large datasets, and 
-    + fit statistical models
-    + __with minimal lines of code__
-* While providing
-    + a familiar, interactive, desktop programming environment (R)
-    + scalable access to the thousands of analytic methods of statistics, machine learning and visualization available in R
-    + automatic management of the complicated tasks of distributed storage and computation required for big data
-
+- Work completely in R
+- Have access to R's 1000s of statistical, ML, and vis methods ideally with no need to rewrite scalable versions
+- Be able to apply any ad-hoc R code
+- Minimize time thinking about code or distributed systems
+- Maximize time thinking about the data
+- Be able to analyze it with nearly as much flexibility and ease as small data
     
-## Tessera Fundamentals
+## Tessera Packages
 
-* Users interact primarily with two R packages:
-    + <span class="highlight">datadr</span>: data analysis toolkit implementing the Divide & Recombine paradigm that allows data scientists to leverage parallel processing back-ends such as Hadoop and Spark
-    + <span class="highlight">Trelliscope</span>: visualization package that enables detailed but scalable visualization of large, complex data
-* Open source 
-    + http://tessera.io
-    + http://github.com/tesseradata
+Users interact primarily with two R packages:
+- <span class="highlight">datadr</span>: data analysis R package implementing the Divide & Recombine paradigm that allows data scientists to leverage parallel data and processing back-ends such as Hadoop and Spark through a simple consistent interface
+- <span class="highlight">Trelliscope</span>: visualization package that enables flexible detailed scalable visualization of large, complex data
     
-## Tessera Fundamentals {.smaller}
 
-<img src="flexibility_scalability.png" class="center"/>
-
-<table><tr>
-<td style="width:50%;">
-* Rapid development of code and models
-* Excellent flexible statistical visualization capabilities
-* Immense collection of statistical routines
-</td><td style="width:50%;">
-* Hides messy details of parallelization
-* Takes care of partitioning, scheduling, fault tolerance, data management, and execution
-* Parallel programming paradigm (MapReduce) makes sense for many statistical algorithms
-</td></tr></table>
 
 ## Back End Agnostic
 
@@ -88,19 +72,19 @@ Our goal in creating Tessera was to
 
 <span class="center">Interface stays the same regardless of back end</span>
     
-## Tessera Fundamentals: datadr
+## Tessera Fundamentals: D&R
 
-![](divide_and_recombine2.png)
+![](drdiagram.png)
 
 ## Tessera Fundamentals: Trelliscope {.smaller}
 
 * Trelliscope: a viz tool that enables scalable, detailed visualization of large data
 * Data is split into meaningful subsets, and a visualization method is applied to each subset
-* The user can sort and filter plots based on "cognostics"-summary statistics of interest-to explore the data
+* The user can sort and filter plots based on "cognostics" - summary statistics of interest - to explore the data ([example](https://www.youtube.com/watch?v=KatkJx9Ui0o))
 
 ![](trelliscope_intro_screenshot.png)
 
-## The current Tessera distributed computing stack {.smaller}
+## The Current Tessera Distributed Computing Stack {.smaller}
 
 <table><tr>
 <td><img src="current_stack.png"/></td>
@@ -111,6 +95,17 @@ Our goal in creating Tessera was to
 * Hadoop:  Framework for managing data and computation distributed across multiple hardrives in a cluster
 * HDFS:  Hadoop Distributed File System
 </td></tr></table>
+
+## More Information
+
+- http://tessera.io
+- http://github.com/tesseradata
+- [\@TesseraIO](https://twitter.com/TesseraIO)
+- [Google user group](https://groups.google.com/forum/#!forum/tessera-users)
+- Try it out
+    + If you have some applications in mind, give it a try!
+    + You don’t need big data or a cluster to use Tessera
+    + Ask us for help, give us feedback
 
 # Introduction to `datadr`
 
@@ -145,7 +140,8 @@ medSoldPriceSqft | median sold price per square foot
 
 ## `datadr` data representation {.smaller}
 
-* Two main data types are 
+* Fundamentally, all data types are stored in a back-end as key/value pairs
+* Data type abstractions on top of the key/value pairs 
     + Distributed data frame (`ddf`): 
         - A data frame that is split into chunks
         - Each chunk contains a subset of the rows of the data frame
@@ -154,31 +150,29 @@ medSoldPriceSqft | median sold price per square foot
         - Similar to distributed data frame
         - Except each chunk can be an object with any structure
         - Every distributed data frame is also a distributed data object
-* Both `ddf` and `ddo` types use key/value pairs for their structure
 
-## Data storage 
+## Back-ends 
 
-`datadr` data storage options:
+`datadr` data back-end options:
 
 * In memory
 * Local disk
 * HDFS
-* Spark (coming soon)
+* Spark (under development)
 
 ## Data ingest
 
 ```{r eval=FALSE}
 # similar to read.table function:
 my.data <- drRead.table(
-    hdfsConn("/home/me/dir/datafile.txt", 
-        header=TRUE, sep="\t")
+  hdfsConn("/home/me/dir/datafile.txt", header=TRUE, sep="\t")
 )
 
 # similar to read.csv function:
 my.data2 <- drRead.csv(
     localDiskConn("c:/my/local/data.csv"))
 
-#convert in memory data.frame to ddf:
+# convert in memory data.frame to ddf:
 my.data3 <- ddf(some.data.frame)
 ```
 
@@ -199,7 +193,7 @@ housingDdf <- ddf(housing)
 * A common thing to do is to divide a dataset based on the value of one or more variables
 * Another option is to divide data into random replicates
     + Use random replicates to estimate a GLM fit by applying GLM to each replicate subset and taking the mean coefficients
-    + Random replicates can also be used for a bag of little bootstraps approach 
+    + Random replicates can be used for other all-data model fitting approaches like bag of little bootstraps, concensus MCMC, etc.
 
 ## Divide example
 
@@ -250,6 +244,8 @@ Partipants: try these functions on your own
 * `names(byCounty)`
 * `length(byCounty)`
 * `getKeys(byCounty)` 
+
+# Break
 
 ## Transformations
 
@@ -588,7 +584,9 @@ makeDisplay(joinedData,
 view()
 ```
 
-# Analysis of NYC Taxi Data Set
+# Break
+
+# Analysis of NYC Taxi Data
 
 ## Data download  
 
@@ -628,6 +626,9 @@ tip\_amount | tip paid, may be $0
 tolls\_amount | bridge and tunnel tolls  
 total\_amount | total amount paid by passengers 
 
+## Divide and Recombine
+
+![](drdiagram.png)
 
 ## Running a Local Cluster  
 
