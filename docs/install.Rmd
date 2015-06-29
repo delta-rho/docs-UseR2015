@@ -4,8 +4,9 @@ The Tessera team will be presenting an interactive tutorial at [useR! 2015](http
 
 ## Links for the Tutorial
 
-- [Slides](https://cdn.rawgit.com/tesseradata/docs-UseR2015/gh-pages/slides/housing/Tessera-overview-housing-demo.html)
-- [Taxi example code]()
+- [Slides](http://ml.stat.purdue.edu/user2015/Tessera-aalborg-slides.html)
+- [Housing example code](https://raw.githubusercontent.com/tesseradata/docs-UseR2015/gh-pages/slides/housing_example_code.R) (note that you can equivalently use the code in the slides)
+- Taxi example code: link coming soon
 
 ## Download Tutorial Materials ##
 
