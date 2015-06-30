@@ -436,8 +436,6 @@ byCounty <- divide(housing, by=c("state", "county"),
     output=hdfsConn("/hdfs/data/byCounty"))
 ```
 
-# Hadoop demo
-
 # Introduction to `trelliscope`
 
 ## Trelliscope
