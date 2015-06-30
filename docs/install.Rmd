@@ -26,6 +26,18 @@ devtools::install_github("hafen/housingData")
 devtools::install_github("bokeh/rbokeh")
 ```
 
+**Update:** it appears there may be some issues with github rate limiting at the conference.  If you try the above `install_github` commands and get an error, we have made the github packages available at another location:
+
+```r
+# only run this if the install commands above were not successful
+install.packages(c("maps", "ggplot2", "gridExtra", "lubridate", "geosphere", "devtools"))
+
+packages <- c("datadr_0.7.5.8", "housingData_0.2", "rbokeh_0.2.3.1", "trelliscope_0.8.4")
+urls <- sprintf("http://ml.stat.purdue.edu/user2015/packages/%s.tar.gz", packages)
+
+devtools::install_url(urls)
+```
+
 **For Windows users:**  when installing `devtools`, you may notice the following warning, which you can ignore:
 
 ```r

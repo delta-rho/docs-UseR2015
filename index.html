@@ -82,6 +82,14 @@ devtools::install_github(&quot;tesseradata/datadr&quot;)
 devtools::install_github(&quot;tesseradata/trelliscope&quot;)
 devtools::install_github(&quot;hafen/housingData&quot;)
 devtools::install_github(&quot;bokeh/rbokeh&quot;)</code></pre>
+<p><strong>Update:</strong> it appears there may be some issues with github rate limiting at the conference. If you try the above <code>install_github</code> commands and get an error, we have made the github packages available at another location:</p>
+<pre class="r"><code># only run this if the install commands above were not successful
+install.packages(c(&quot;maps&quot;, &quot;ggplot2&quot;, &quot;gridExtra&quot;, &quot;lubridate&quot;, &quot;geosphere&quot;, &quot;devtools&quot;))
+
+packages &lt;- c(&quot;datadr_0.7.5.8&quot;, &quot;housingData_0.2&quot;, &quot;rbokeh_0.2.3.1&quot;, &quot;trelliscope_0.8.4&quot;)
+urls &lt;- sprintf(&quot;http://ml.stat.purdue.edu/user2015/packages/%s.tar.gz&quot;, packages)
+
+devtools::install_url(urls)</code></pre>
 <p><strong>For Windows users:</strong> when installing <code>devtools</code>, you may notice the following warning, which you can ignore:</p>
 <pre class="r"><code>&gt; library(devtools)
 WARNING: Rtools is required to build R packages, but no version of Rtools compatible with R 3.x was found. (Only the following incompatible version(s) of Rtools were found:3.2)

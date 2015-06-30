@@ -18,3 +18,4 @@ unlink("assets", recursive = TRUE)
 render("index.Rmd", output_format = package_docs(lib_dir = "assets", toc = FALSE))
 check_output("index.html")
 browseURL("index.html")
+
