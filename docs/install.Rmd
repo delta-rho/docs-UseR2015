@@ -26,7 +26,7 @@ devtools::install_github("hafen/housingData")
 devtools::install_github("bokeh/rbokeh")
 ```
 
-**Update:** it appears there may be some issues with github rate limiting at the conference.  If you try the above `install_github` commands and get an error, we have made the github packages available at another location:
+**Update:** it appears there may be some issues with github rate limiting at the conference.  If you try the above `install_github` commands and get an error to the effect of "(403) Forbidden", we have made the github packages available at another location:
 
 ```r
 # only run this if the install commands above were not successful
