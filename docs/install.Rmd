@@ -5,8 +5,8 @@ The Tessera team will be presenting an interactive tutorial at [useR! 2015](http
 ## Links for the Tutorial
 
 - [Slides](http://ml.stat.purdue.edu/user2015/Tessera-aalborg-slides.html)
-- [Housing example code](https://raw.githubusercontent.com/tesseradata/docs-UseR2015/gh-pages/slides/housing_example_code.R) (note that you can equivalently use the code in the slides)
-- Taxi example code: link coming soon
+- [Housing example code](https://raw.githubusercontent.com/tesseradata/docs-UseR2015/gh-pages/R/housing.R) (note that you can equivalently use the code in the slides)
+- [Taxi example code](https://raw.githubusercontent.com/tesseradata/docs-UseR2015/gh-pages/R/taxi.R) and line to [rate code information](http://www.nyc.gov/html/tlc/html/passenger/taxicab_rate.shtml)
 
 ## Download Tutorial Materials ##
 
